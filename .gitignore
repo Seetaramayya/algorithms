@@ -1,0 +1,7 @@
+target/
+*.class
+*.bkp
+*.zip
+
+.idea
+.bsp
