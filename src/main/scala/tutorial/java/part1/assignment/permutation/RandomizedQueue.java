@@ -6,6 +6,8 @@ import edu.princeton.cs.algs4.StdRandom;
 import java.util.Iterator;
 
 /**
+ * Problem description is in https://coursera.cs.princeton.edu/algs4/assignments/queues/specification.php
+ *
  * (Page: 200 Memory in the book)
  * <b>Memory calculation in the case of int:</b>
  *

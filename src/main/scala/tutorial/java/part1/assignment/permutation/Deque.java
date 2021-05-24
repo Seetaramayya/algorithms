@@ -2,6 +2,9 @@ package tutorial.java.part1.assignment.permutation;
 
 import java.util.Iterator;
 
+/**
+ * Problem description is in https://coursera.cs.princeton.edu/algs4/assignments/queues/specification.php
+ */
 public class Deque<Item> implements Iterable<Item> {
     private Node<Item> first = null;
     private Node<Item> last = null;

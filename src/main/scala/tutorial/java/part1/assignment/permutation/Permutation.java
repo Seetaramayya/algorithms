@@ -2,6 +2,9 @@ package tutorial.java.part1.assignment.permutation;
 
 import edu.princeton.cs.algs4.StdIn;
 
+/**
+ * Problem description is in https://coursera.cs.princeton.edu/algs4/assignments/queues/specification.php
+ */
 public class Permutation {
     public static void main(String[] args) {
         if (args.length != 1) {
