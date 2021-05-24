@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.StdRandom
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -29,7 +30,7 @@ class RandomizedQueueSpec extends AnyWordSpec with Matchers {
 
     "return random iterator" in {
       val randomizedQueue = new RandomizedQueue[Int]()
-      val max = 4
+      val max = 10
       enqueueItems(randomizedQueue, max)
 
       (1 to max).foreach { i =>
@@ -40,7 +41,35 @@ class RandomizedQueueSpec extends AnyWordSpec with Matchers {
 
     }
 
+    "return correct permutations" in {
+      val k = 1;
+      val distribution = (1 to 100).map(_ => permutation(k).head).groupBy(identity).map {
+        case (key, values) => 25 - values.size
+      }
+
+      println(distribution)
+      distribution.count(Math.abs(_) > 4) shouldBe 0
+    }
+
   }
+
+  // TODO: if the number of elements to keep in memory is k (instead of n) then randomness is not uniform.
+  // 0 <= k <= n
+  private def permutation(k: Int) = {
+    val randomizedQueue = new RandomizedQueue[Int]()
+    var total = 0;
+    (1 to 4).foreach { i =>
+      randomizedQueue.enqueue(i)
+      total += 1
+    }
+//    randomizedQueue.size() shouldBe k
+//    val set = randomizedQueue.iterator().asScala.toSet
+//    set.size shouldBe k
+//    set
+    (1 to k).map(_ => randomizedQueue.dequeue())
+  }
+
+
   private def enqueueItems(randomizedQueue: RandomizedQueue[Int], count: Int): List[Int] = (1 to count).toList.map { i =>
     randomizedQueue.enqueue(i) //side effect
     i
