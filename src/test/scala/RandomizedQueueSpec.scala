@@ -1,11 +1,12 @@
 import edu.princeton.cs.algs4.StdRandom
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import tutorial.java.part1.assignment.permutation.RandomizedQueue
 
 import scala.jdk.CollectionConverters.IteratorHasAsScala
 
 class RandomizedQueueSpec extends AnyWordSpec with Matchers {
-  "RandomizedQueue" should {
+  "tutorial.java.part1.assignment.permutation.RandomizedQueue" should {
     "enqueue/dequeue correct number of items" in {
       val randomizedQueue = new RandomizedQueue[Int]()
       val max = 100
@@ -41,24 +42,29 @@ class RandomizedQueueSpec extends AnyWordSpec with Matchers {
 
     }
 
+    // distribution is not really that great, List(280, 220, 250, 250) is not that good, if the negligibility is less than
+    // 10 is good enough for me.
     "return correct permutations" in {
-      val k = 1;
-      val distribution = (1 to 100).map(_ => permutation(k).head).groupBy(identity).map {
-        case (key, values) => 25 - values.size
+      val k = 1
+      val n = 4
+      val totalTrails = 1000
+      val negligibility = 30
+      val distribution = (1 to totalTrails).map(_ => permutation(k, n).head).groupBy(identity).map {
+        case (key, values) => totalTrails / n - values.size
       }
 
       println(distribution)
-      distribution.count(Math.abs(_) > 4) shouldBe 0
+      distribution.count(Math.abs(_) > negligibility) shouldBe 0
     }
 
   }
 
   // TODO: if the number of elements to keep in memory is k (instead of n) then randomness is not uniform.
   // 0 <= k <= n
-  private def permutation(k: Int) = {
+  private def permutation(k: Int, n: Int) = {
     val randomizedQueue = new RandomizedQueue[Int]()
     var total = 0;
-    (1 to 4).foreach { i =>
+    (1 to n).foreach { i =>
       randomizedQueue.enqueue(i)
       total += 1
     }

@@ -1,3 +1,5 @@
+package tutorial.java.part1.assignment.permutation;
+
 import edu.princeton.cs.algs4.StdIn;
 
 public class Permutation {

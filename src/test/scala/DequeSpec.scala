@@ -1,11 +1,12 @@
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import tutorial.java.part1.assignment.permutation.Deque
 
 import scala.jdk.CollectionConverters._
 
 class DequeSpec extends AnyWordSpec with Matchers {
 
-  "Deque" should {
+  "tutorial.java.part1.assignment.permutation.Deque" should {
     "add one items in the front" in {
       val deque = new Deque[Int]()
       deque.addFirst(1)

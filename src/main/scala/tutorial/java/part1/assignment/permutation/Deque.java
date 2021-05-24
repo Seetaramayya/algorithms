@@ -1,3 +1,5 @@
+package tutorial.java.part1.assignment.permutation;
+
 import java.util.Iterator;
 
 public class Deque<Item> implements Iterable<Item> {

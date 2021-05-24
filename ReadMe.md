@@ -21,7 +21,9 @@
 - Iterators
 - Bags
 - Assignment 
-  - Deque (double linked list) implementation
-  - RandomizedQueue (with array) implementation
-  - Permutation
+  - tutorial.java.part1.assignment.permutation.Deque (double linked list) implementation
+  - tutorial.java.part1.assignment.permutation.RandomizedQueue (with array) implementation
+  - tutorial.java.part1.assignment.permutation.Permutation
+- Sorting
+  - Insertion sort
   
