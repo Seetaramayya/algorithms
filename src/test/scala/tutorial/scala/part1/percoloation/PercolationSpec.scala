@@ -1,3 +1,5 @@
+package tutorial.scala.part1.percoloation
+
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import tutorial.java.part1.assignment.percolation.Percolation

@@ -1,9 +1,9 @@
-import edu.princeton.cs.algs4.{StdRandom, StdStats}
+package tutorial.scala.part1.percoloation
+
+import edu.princeton.cs.algs4.StdRandom
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import tutorial.java.part1.assignment.percolation.{Percolation, PercolationStats}
-
-import scala.annotation.tailrec
 
 class PercolationStatsSpec extends AnyWordSpec with Matchers {
 
