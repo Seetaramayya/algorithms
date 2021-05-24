@@ -1,0 +1,39 @@
+package tutorail.java.part1.sortings;
+
+/**
+ * Selection sort:
+ *  - Identify smallest in the remaining array
+ *  - Swap with current element with smallest
+ *  - Repeat above 2 steps until finishes all the elements
+ * Performance:
+ *   - N + (N - 1) + (N -2) + .... + 3 + 2 + 1 = ∑N = N * (N - 1)/ 2 = O(N2)
+ *
+ * Whether array is sorted or not complexity is same for the selection sort
+ *
+ *
+ * https://en.wikipedia.org/wiki/Selection_sort
+ */
+public class SelectionSort {
+    // Sorts given array, so no need to return anything :)
+    public static void sort(Comparable[] a) {
+        for (int i = 0; i < a.length; i++) {
+            for (int j = i + 1; j < a.length; j++) {
+                // is a[j] < a[i] if so swap
+                if (less(a[j], a[i])) {
+                    swap(a, j, i);
+                }
+            }
+
+        }
+    }
+
+    private static boolean less(Comparable a, Comparable b) {
+        return a.compareTo(b) < 0;
+    }
+
+    public static void swap(Comparable[] a, int i, int j) {
+        Comparable temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+}
