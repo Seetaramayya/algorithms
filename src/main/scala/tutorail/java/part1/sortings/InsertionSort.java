@@ -9,6 +9,9 @@ package tutorail.java.part1.sortings;
  * Performance: Worst case : O(N2), Best case: O(N) because just N - 1 comparisons, for partially ordered array it is linear
  *
  *
+ *    Best Case           Avg            Worst         Memory
+ *    N                   N^2            N^2           no extra memory
+ *
  * - Input Array     : (4, 3, 2, 1)
  *     i = 1, j = 1  : (3, 4, 2, 1)
  *     i = 2, j = 2  : (3, 2, 4, 1)

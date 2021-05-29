@@ -6,12 +6,16 @@ package tutorail.java.part1.sortings;
  *  - Swap with current element with smallest
  *  - Repeat above 2 steps until finishes all the elements
  * Performance:
- *   - N + (N - 1) + (N -2) + .... + 3 + 2 + 1 = ∑N = N * (N - 1)/ 2 = O(N2)
+ *   - N + (N - 1) + (N -2) + .... + 3 + 2 + 1 = ∑N = N * (N - 1)/ 2 = O(N^2)
+ *
+ *    Best Case           Avg            Worst         Memory
+ *    N^2                 N^2            N^2           no extra memory
  *
  * Whether array is sorted or not complexity is same for the selection sort
  *
  *
  * https://en.wikipedia.org/wiki/Selection_sort
+ * https://en.wikipedia.org/wiki/Sorting_algorithm
  */
 public class SelectionSort {
     // Sorts given array, so no need to return anything :)
