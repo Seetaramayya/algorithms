@@ -1,5 +1,8 @@
 package tutorail.java.part1.sortings;
 
+import static tutorail.java.part1.sortings.ComparableUtils.less;
+import static tutorail.java.part1.sortings.ComparableUtils.swap;
+
 /**
  * Insertion sort: From left to right, move the current element left if it is small
  *  - Identify smallest in the remaining array
@@ -37,15 +40,5 @@ public class InsertionSort {
             }
         }
         return comparisons;
-    }
-
-    private static boolean less(Comparable a, Comparable b) {
-        return a.compareTo(b) < 0;
-    }
-
-    public static void swap(Comparable[] a, int i, int j) {
-        Comparable temp = a[i];
-        a[i] = a[j];
-        a[j] = temp;
     }
 }
