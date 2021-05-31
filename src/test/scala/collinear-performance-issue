@@ -1,0 +1,115 @@
+********************************************************************************
+*  TIMING
+********************************************************************************
+
+Timing tutorial.java.part1.assignment.collinear.BruteCollinearPoints
+*-----------------------------------------------------------
+Running 10 total tests.
+
+Test 1a-1e: Find collinear points among n random distinct points
+
+
+                                                      slopeTo()
+             n    time     slopeTo()   compare()  + 2*compare()        compareTo()
+-----------------------------------------------------------------------------------------------
+=> passed    16   0.00        2500           0           2500                   57
+=> passed    32   0.00       41416           0          41416                  154
+=> passed    64   0.01      679056           0         679056                  372
+=> passed   128   0.04    11017504           0       11017504                  859
+=> passed   256   0.34   177588800           0      177588800                 1982
+==> 5/5 tests passed
+
+Test 2a-2e: Find collinear points among n/4 arbitrary line segments
+
+
+                                                      slopeTo()
+             n    time     slopeTo()   compare()  + 2*compare()        compareTo()
+-----------------------------------------------------------------------------------------------
+=> passed    16   0.00        2500           0           2500                  113
+=> passed    32   0.00       41416           0          41416                  324
+=> passed    64   0.01      679056           0         679056                 1049
+=> passed   128   0.05    11017504           0       11017504                 2886
+=> passed   256   0.63   177588800           0      177588800                 8937
+==> 5/5 tests passed
+
+Total: 10/10 tests passed!
+
+
+================================================================
+
+
+
+Timing tutorial.java.part1.assignment.collinear.FastCollinearPoints
+*-----------------------------------------------------------
+Running 31 total tests.
+
+Test 1a-1g: Find collinear points among n random distinct points
+
+
+                                                      slopeTo()
+             n    time     slopeTo()   compare()  + 2*compare()        compareTo()
+-----------------------------------------------------------------------------------------------
+=> passed    64   0.00        4096       18826          41748                 4096
+=> passed   128   0.01       16384       88985         194354                16384
+=> passed   256   0.03       65536      415032         895600                65536
+=> passed   512   0.11      262144     1887024        4036192               262144
+=> passed  1024   0.46     1048576     8522657       18093890              1048576
+=> passed  2048   0.88     4194304    37891717       79977738              4194304
+==> 6/6 tests passed
+
+lg ratio(slopeTo() + 2*compare()) = lg (79977738 / 18093890) = 2.14
+=> passed
+
+==> 7/7 tests passed
+
+Test 2a-2g: Find collinear points among the n points on an n-by-1 grid
+
+                                                      slopeTo()
+             n    time     slopeTo()   compare()  + 2*compare()        compareTo()
+-----------------------------------------------------------------------------------------------
+=> passed    64   0.00        4096        4764          13624                27528
+=> FAILED   128   0.01       16384       17796          51976               127410   (1.1x)
+=> FAILED   256   0.01       65536       68717         202970               573556   (1.4x)
+=> FAILED   512   0.09      262144      269399         800942              2559589   (1.7x)
+=> FAILED  1024   0.38     1048576     1065026        3178628             11275988   (2.0x)
+=> FAILED  2048   0.71     4194304     4231214       12656732             49314998   (2.3x)
+=> FAILED  4096   2.51    16777216    16859163       50495542            214021903   (2.5x)
+==> 1/7 tests passed
+
+lg ratio(slopeTo() + 2*compare()) = lg (50495542 / 12656732) = 2.00
+=> passed
+
+==> 2/8 tests passed
+
+Test 3a-3g: Find collinear points among the n points on an n/4-by-4 grid
+
+                                                      slopeTo()
+             n    time     slopeTo()   compare()  + 2*compare()        compareTo()
+-----------------------------------------------------------------------------------------------
+=> passed    64   0.00        4096       17634          39364                26162
+=> passed   128   0.01       16384       72998         162380               282279
+=> FAILED   256   0.05       65536      284212         633960              3940964   (3.2x)
+=> FAILED   512   0.47      262144     1116912        2495968             60711169  (12.9x)
+=> FAILED  1024   7.18     1048576     4413262        9875100            960488893  (52.1x)
+=> FAILED  2048 106.80     4194304    17525760       39245824          15309985284 (211.0x)
+Aborting: time limit of 10 seconds exceeded
+
+Test 4a-4g: Find collinear points among the n points on an n/8-by-8 grid
+
+                                                      slopeTo()
+             n    time     slopeTo()   compare()  + 2*compare()        compareTo()
+-----------------------------------------------------------------------------------------------
+=> passed    64   0.00        4096       18368          40832                15107
+=> passed   128   0.00       16384       86135         188654               101389
+=> passed   256   0.03       65536      383178         831892              1096816
+=> FAILED   512   0.32      262144     1621762        3505668             15368616   (2.3x)
+=> FAILED  1024   4.30     1048576     6752358       14553292            237309485   (8.9x)
+
+
+WARNING: the time limit of 180 seconds was exceeded, so not all tests could be completed.
+         This usually indicates a performance bug or an infinite loop.
+
+
+
+
+Total: 0/31 tests passed:<font color = #990000><b> Could not complete tests, which results in a reported score of 0.</b></font>
