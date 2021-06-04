@@ -15,8 +15,8 @@ class InsertionSortSpec extends AnyWordSpec with Matchers {
     "sort an array with 4 elements ( best case comparisons are ∑n-1)" in {
       val input: Array[Comparable[_]] = Array(4, 3, 2, 1)
       val comparison = InsertionSort.sort(input)
-      comparison shouldBe 6
       input shouldBe Array(1, 2, 3, 4)
+      comparison shouldBe 6
     }
 
     "sort an array which is in worst case ( best case comparisons are ∑n-1)" in {
@@ -30,7 +30,7 @@ class InsertionSortSpec extends AnyWordSpec with Matchers {
 
     "sort unsorted array with duplicate values" in {
       val input: Array[Comparable[_]] = Array(3, 2, 1, 4, 4, 1, 2)
-      val comparison = InsertionSort.sort(input)
+      InsertionSort.sort(input)
       input shouldBe Array(1, 1, 2, 2, 3, 4, 4)
     }
   }

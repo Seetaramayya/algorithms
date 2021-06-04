@@ -27,3 +27,23 @@
 - Sorting
   - Insertion sort
   
+  
+  
+## TODO 
+
+
+- Following sortings needs to be written in Scala (of course there should not be any difference in the logic, readability might change)
+  - Selection sort (unstable + O(N^2) + inplace)
+  - Insertion sort (stable + O(N^2) + inplace) average case is better than selection sort
+  - Merge sort (stable + O(NlogN) + extra space O(N) ) 
+  - Quick sort (unstable + O(NlogN) + inplace) but needs to be careful otherwise worst case will be O(N^2) 
+  - Heap sort (unstable + O(NlogN) + inplace) guaranteed average O(NlogN) but less used in reality due to unstable algorithm
+  
+- Following sortings needs to be written in Java
+  - Quick sort
+  - Heap sort
+
+- Binary heap (both in java and scala)
+
+- Benchmark above programs
+
