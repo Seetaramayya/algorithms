@@ -35,6 +35,7 @@
 - Following sortings needs to be written in Scala (of course there should not be any difference in the logic, readability might change)
   - Selection sort (unstable + O(N^2) + inplace)
   - Insertion sort (stable + O(N^2) + inplace) average case is better than selection sort
+  - Shell sort (unstable + O(N^3/2) + inplace) is a kind of `Insertion` sort, but it moves `h` instead of 1 movement. Performance is way better than elementary sorts.
   - Merge sort (stable + O(NlogN) + extra space O(N) ) 
   - Quick sort (unstable + O(NlogN) + inplace) but needs to be careful otherwise worst case will be O(N^2) 
   - Heap sort (unstable + O(NlogN) + inplace) guaranteed average O(NlogN) but less used in reality due to unstable algorithm
