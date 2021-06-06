@@ -1,6 +1,7 @@
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
+import scala.io.Source
 import scala.jdk.CollectionConverters.IterableHasAsScala
 
 class BoardSpec extends AnyWordSpec with Matchers {
@@ -9,6 +10,11 @@ class BoardSpec extends AnyWordSpec with Matchers {
       val tiles: Array[Array[Int]] = Array(Array(8, 1, 3), Array(4, 0, 2), Array(7, 6, 5))
       val board = new Board(tiles)
       board.toString shouldBe "3\n 8 1 3\n 4 0 2\n 7 6 5\n"
+    }
+
+    "be able to create for this input as well" in {
+      val board = createBoard("puzzle4x4-unsolvable.txt")
+      board.dimension() shouldBe 4
     }
 
     "return the size of the board" in {
@@ -37,14 +43,6 @@ class BoardSpec extends AnyWordSpec with Matchers {
       val board2 = new Board(tiles)
       board1 shouldBe board2
       board1 should not be(new Board(tiles2))
-    }
-
-    "return same hash code for same kind of board" in {
-      val tiles: Array[Array[Int]] = Array(Array(8, 1, 3), Array(4, 0, 2), Array(7, 6, 5))
-      val board1 = new Board(tiles)
-      val board2 = new Board(tiles)
-      board1.hashCode() shouldBe board2.hashCode()
-      new Board(Array(Array(1, 2), Array(3, 4))).hashCode() shouldBe new Board(Array(Array(1, 2), Array(3, 4))).hashCode()
     }
 
     "return 4 neighbours for given board" in {
@@ -104,10 +102,21 @@ class BoardSpec extends AnyWordSpec with Matchers {
     "return twinned board for 2X2" in {
       val tiles: Array[Array[Int]] = Array(Array(1, 2), Array(3, 0))
       val board = new Board(tiles)
-      val twin = board.twin()
-      board shouldBe board
-      twin shouldBe twin
-      twin should not be board
+      (1 to 5000).foreach { _ =>
+        val twin = board.twin()
+        board shouldBe board
+        twin shouldBe twin
+        twin should not be board
+      }
     }
+  }
+
+  def createBoard(fileName: String): Board = {
+    val lines = Source.fromInputStream(getClass.getResourceAsStream(s"8puzzle/$fileName")).getLines().toList
+    val tiles: Array[Array[Int]] = lines.drop(1).map { line =>
+      line.split("\\s+").filter(_.nonEmpty).map(s => Integer.parseInt(s))
+    }.toArray
+
+    new Board(tiles)
   }
 }

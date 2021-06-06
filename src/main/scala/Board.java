@@ -132,10 +132,6 @@ public class Board {
         return Arrays.deepEquals(tiles, board.tiles) && this.rowSize == board.rowSize && this.columnSize == board.columnSize;
     }
 
-    public int hashCode() {
-        return Arrays.deepHashCode(tiles) + Objects.hash(rowSize, columnSize, totalElements);
-    }
-
     // O(N)
     private int[][] copyTiles() {
         int[][] result = new int[rowSize][columnSize];
@@ -189,15 +185,53 @@ public class Board {
     // a board that is obtained by exchanging any pair of tiles O(N)
     public Board twin() {
         int[][] copiedTiles = copyTiles();
-        int i1 = StdRandom.uniform(rowSize);
-        int j1 = StdRandom.uniform(columnSize);
-        int i2 = StdRandom.uniform(rowSize);
-        int j2 = StdRandom.uniform(columnSize);
-        if (i1 == i2 && j1 == j2) {
-            j2 = StdRandom.uniform(columnSize);
+        Position tile1 = nonBlankRandomTile();
+        Position tile2 = nonBlankRandomTile();
+        while (tile1.equals(tile2)) {
+            tile2 = nonBlankRandomTile();
         }
-        swap(copiedTiles, i1, j1, i2, j2);
+
+        swap(copiedTiles, tile1.x, tile1.y, tile2.x, tile2.y);
         return new Board(copiedTiles);
+    }
+
+    private Position nonBlankRandomTile() {
+        int x = StdRandom.uniform(rowSize);
+        int y = StdRandom.uniform(rowSize);
+        if (x == blankPositionRowIndex && y == blankPositionColumnIndex) {
+            return nonBlankRandomTile();
+        } else {
+            return new Position(x, y);
+        }
+    }
+
+    private static class Position {
+        private final int x;
+        private final int y;
+
+        public Position(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Position position = (Position) o;
+            return x == position.x &&
+                    y == position.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+
+        @Override
+        public String toString() {
+            return String.format("Position(%d, %d)", x, y);
+        }
     }
 
     // unit testing (not graded)
