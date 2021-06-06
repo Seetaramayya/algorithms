@@ -1,9 +1,8 @@
-import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.In;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class Board {
     private final int rowSize;
@@ -16,7 +15,8 @@ public class Board {
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col) O(N)
     public Board(int[][] tiles) {
-        rowSize = columnSize = tiles.length;
+        rowSize = tiles.length;
+        columnSize = tiles.length;
         totalElements = rowSize * columnSize;
         if (rowSize < 2 || rowSize >= 128)
             throw new IllegalArgumentException("length should be in between 2 (inclusive) and 128");
@@ -43,15 +43,15 @@ public class Board {
 
     // string representation of this board O(N)
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(rowSize).append("\n");
+        StringBuilder s = new StringBuilder();
+        s.append(rowSize + "\n");
         for (int i = 0; i < rowSize; i++) {
             for (int j = 0; j < columnSize; j++) {
-                builder.append(String.format("%2d", tiles[i][j]));
+                s.append(String.format("%2d ", tiles[i][j]));
             }
-            builder.append("\n");
+            s.append("\n");
         }
-        return builder.toString();
+        return s.toString();
     }
 
     // board dimension n O(1)
@@ -179,52 +179,23 @@ public class Board {
     // a board that is obtained by exchanging any pair of tiles O(N)
     public Board twin() {
         int[][] copiedTiles = copyTiles();
-        Position tile1 = nonBlankRandomTile();
-        Position tile2 = nonBlankRandomTile();
-        while (tile1.equals(tile2)) {
-            tile2 = nonBlankRandomTile();
+        if (copiedTiles[0][0] != 0 && copiedTiles[0][1] != 0) {
+            swap(copiedTiles, 0, 0, 0, 1);
+        } else {
+            swap(copiedTiles, 1, 0, 1, 1);
         }
 
-        swap(copiedTiles, tile1.x, tile1.y, tile2.x, tile2.y);
         return new Board(copiedTiles);
     }
 
-    private Position nonBlankRandomTile() {
-        int x = StdRandom.uniform(rowSize);
-        int y = StdRandom.uniform(rowSize);
-        if (x == blankPositionRowIndex && y == blankPositionColumnIndex) {
-            return nonBlankRandomTile();
-        } else {
-            return new Position(x, y);
-        }
-    }
-
-    private static class Position {
-        private final int x;
-        private final int y;
-
-        public Position(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        @Override
-        public boolean equals(Object that) {
-            if (this == that) return true;
-            if (that == null || getClass() != that.getClass()) return false;
-            Position position = (Position) that;
-            return x == position.x &&
-                    y == position.y;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(x, y);
-        }
-
-        @Override
-        public String toString() {
-            return String.format("Position(%d, %d)", x, y);
-        }
+    public static void main(String[] args) {
+        In in = new In(args[0]);
+        int n = in.readInt();
+        int[][] tiles = new int[n][n];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                tiles[i][j] = in.readInt();
+        Board initial = new Board(tiles);
+        System.out.println(initial);
     }
 }

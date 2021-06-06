@@ -72,7 +72,7 @@ class SolverSpec extends AnyWordSpec with Matchers {
     }
 
     // TODO why solver is returning 38 instead of 36
-    "return solution for puzzle4x4-36.txt" ignore {
+    "return solution for puzzle4x4-36.txt" in {
       val initial = createBoard("puzzle4x4-36.txt")
       val solver = new Solver(initial)
       solver.isSolvable shouldBe true

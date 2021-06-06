@@ -6,12 +6,6 @@ import scala.jdk.CollectionConverters.IterableHasAsScala
 
 class BoardSpec extends AnyWordSpec with Matchers {
   "Board" should {
-    "return correct toString value" in {
-      val tiles: Array[Array[Int]] = Array(Array(8, 1, 3), Array(4, 0, 2), Array(7, 6, 5))
-      val board = new Board(tiles)
-      board.toString shouldBe "3\n 8 1 3\n 4 0 2\n 7 6 5\n"
-    }
-
     "be able to create for this input as well" in {
       val board = createBoard("puzzle4x4-unsolvable.txt")
       board.dimension() shouldBe 4
@@ -65,27 +59,27 @@ class BoardSpec extends AnyWordSpec with Matchers {
     "return 4 neighbours for given board" in {
       val tiles: Array[Array[Int]] = Array(Array(8, 1, 3), Array(4, 0, 2), Array(7, 6, 5))
       val board = new Board(tiles)
-      board.toString shouldBe "3\n 8 1 3\n 4 0 2\n 7 6 5\n"
+      board.toString shouldBe "3\n 8  1  3 \n 4  0  2 \n 7  6  5 \n"
       val neighbors = board.neighbors().asScala.toList
       neighbors.size shouldBe 4
-      board.toString shouldBe "3\n 8 1 3\n 4 0 2\n 7 6 5\n"
-      neighbors.head.toString shouldBe "3\n 8 1 3\n 0 4 2\n 7 6 5\n"
+      board.toString shouldBe "3\n 8  1  3 \n 4  0  2 \n 7  6  5 \n"
+      neighbors.head.toString shouldBe "3\n 8  1  3 \n 0  4  2 \n 7  6  5 \n"
 
-      neighbors(1).toString shouldBe "3\n 8 1 3\n 4 2 0\n 7 6 5\n"
-      neighbors(2).toString shouldBe "3\n 8 0 3\n 4 1 2\n 7 6 5\n"
-      neighbors(3).toString shouldBe "3\n 8 1 3\n 4 6 2\n 7 0 5\n"
+      neighbors(1).toString shouldBe "3\n 8  1  3 \n 4  2  0 \n 7  6  5 \n"
+      neighbors(2).toString shouldBe "3\n 8  0  3 \n 4  1  2 \n 7  6  5 \n"
+      neighbors(3).toString shouldBe "3\n 8  1  3 \n 4  6  2 \n 7  0  5 \n"
     }
 
     "return 2 neighbours for 2X2 board" in {
       val tiles: Array[Array[Int]] = Array(Array(1, 2), Array(3, 0))
       val board = new Board(tiles)
-      board.toString shouldBe "2\n 1 2\n 3 0\n"
+      board.toString shouldBe "2\n 1  2 \n 3  0 \n"
       val neighbors = board.neighbors().asScala.toList
       neighbors.size shouldBe 2
-      board.toString shouldBe "2\n 1 2\n 3 0\n"
-      neighbors.head.toString shouldBe "2\n 1 2\n 0 3\n"
+      board.toString shouldBe "2\n 1  2 \n 3  0 \n"
+      neighbors.head.toString shouldBe "2\n 1  2 \n 0  3 \n"
 
-      neighbors(1).toString shouldBe "2\n 1 0\n 3 2\n"
+      neighbors(1).toString shouldBe "2\n 1  0 \n 3  2 \n"
     }
 
     "return 2 neighbours for given board" in {

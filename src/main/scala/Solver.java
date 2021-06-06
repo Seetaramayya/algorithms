@@ -103,17 +103,13 @@ public class Solver {
                 public Iterator<Board> iterator() {
                     return new Iterator<Board>() {
                         private int cursor = 0;
-
                         @Override
                         public boolean hasNext() {
                             return cursor < path.length;
                         }
-
                         @Override
                         public Board next() {
-                            if (cursor >= path.length) {
-                                throw new NoSuchElementException("cursor is out of the index");
-                            }
+                            if (cursor >= path.length) throw new NoSuchElementException("cursor is out of the index");
                             return path[cursor++];
                         }
                     };
