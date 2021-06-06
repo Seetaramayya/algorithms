@@ -2,29 +2,28 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.StdOut;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * A* search. Now, we describe a solution to the 8-puzzle problem that illustrates a general artificial intelligence methodology
  * known as the A* search algorithm.
- *
+ * <p>
  * We define a search node of the game to be a board, the number of moves made to reach the board,
  * and the previous search node.
- *
+ * <p>
  * - First, insert the initial search node (the initial board, 0 moves, and a null previous search node) into a priority queue.
  * - Then, delete from the priority queue the search node with the minimum priority, and insert onto the
  * priority queue all neighboring search nodes (those that can be reached in one move from the dequeued search node).
  * Repeat this procedure until the search node dequeued corresponds to the goal board.
- *
+ * <p>
  * The efficacy of this approach hinges on the choice of priority function for a search node. We consider two priority functions:
- *
+ * <p>
  * The Hamming priority function is the Hamming distance of a board plus the number of moves made so far to get to the search node. Intuitively, a search node with a small number of tiles in the wrong position is close to the goal, and we prefer a search node if has been reached using a small number of moves.
  * The Manhattan priority function is the Manhattan distance of a board plus the number of moves made so far to get to the search node.
  * To solve the puzzle from a given search node on the priority queue, the total number of moves we need to make (including those already made) is at least its priority, using either the Hamming or Manhattan priority function. Why? Consequently, when the goal board is dequeued, we have discovered not only a sequence of moves from the initial board to the goal board, but one that makes the fewest moves. (Challenge for the mathematically inclined: prove this fact.)
  */
 public class Solver {
-    private MinPQ<SearchNode> priorityQueue = new MinPQ<>((o1, o2) -> o1.priority - o2.priority);
-    private MinPQ<SearchNode> twinnedPriorityQueue = new MinPQ<>((o1, o2) -> o1.priority - o2.priority);
     private final boolean isSolvable;
     private final int moves;
     private final Board[] path;
@@ -34,56 +33,56 @@ public class Solver {
         if (initial == null) {
             throw new IllegalArgumentException("should not be null");
         }
+        MinPQ<SearchNode> priorityQueue = new MinPQ<>((o1, o2) -> o1.priority - o2.priority);
+        MinPQ<SearchNode> twinnedPriorityQueue = new MinPQ<>((o1, o2) -> o1.priority - o2.priority);
         // initial + moves + previous = null
         priorityQueue.insert(new SearchNode(initial, 0, null));
         twinnedPriorityQueue.insert(new SearchNode(initial.twin(), 0, null));
-        SearchNode lastSearchNode = findGoal();
+        SearchNode lastSearchNode = findGoal(priorityQueue, twinnedPriorityQueue);
         isSolvable = lastSearchNode.board.isGoal();
         moves = isSolvable ? lastSearchNode.moves : -1;
         path = constructPath(lastSearchNode);
     }
 
-    private SearchNode findGoal() {
-        SearchNode mainDequeuedNode = null;
-        SearchNode twinnedDequeuedNode = null;
-        do {
-            if (!priorityQueue.isEmpty()) {
-                mainDequeuedNode = priorityQueue.delMin();
-                for (Board neighbour: mainDequeuedNode.board.neighbors()) {
-                    SearchNode tobeEnqueued = new SearchNode(neighbour, mainDequeuedNode.moves + 1, mainDequeuedNode);
-                    if (mainDequeuedNode.previous == null || !mainDequeuedNode.previous.board.equals(neighbour)) {
-                        priorityQueue.insert(tobeEnqueued);
-                    }
+    private SearchNode dequeueFromPQ(MinPQ<SearchNode> pq) {
+        SearchNode dequeuedNode = null;
+        if (!pq.isEmpty()) {
+            dequeuedNode = pq.delMin();
+            for (Board neighbour : dequeuedNode.board.neighbors()) {
+                SearchNode tobeEnqueued = new SearchNode(neighbour, dequeuedNode.moves + 1, dequeuedNode);
+                if (dequeuedNode.previous == null || !dequeuedNode.previous.board.equals(neighbour)) {
+                    pq.insert(tobeEnqueued);
                 }
             }
-            if (!twinnedPriorityQueue.isEmpty()) {
-                twinnedDequeuedNode = twinnedPriorityQueue.delMin();
-                for (Board neighbour: twinnedDequeuedNode.board.neighbors()) {
-                    SearchNode tobeEnqueued = new SearchNode(neighbour, twinnedDequeuedNode.moves + 1, twinnedDequeuedNode);
-                    if (twinnedDequeuedNode.previous == null || !twinnedDequeuedNode.previous.board.equals(neighbour)) {
-                        twinnedPriorityQueue.insert(tobeEnqueued);
-                    }
-                }
-            }
+        }
 
+        return dequeuedNode;
+    }
+
+    private SearchNode findGoal(MinPQ<SearchNode> priorityQueue, MinPQ<SearchNode> twinnedPriorityQueue) {
+        SearchNode mainDequeuedNode;
+        SearchNode twinnedDequeuedNode;
+        do {
+            mainDequeuedNode = dequeueFromPQ(priorityQueue);
+            twinnedDequeuedNode = dequeueFromPQ(twinnedPriorityQueue);
         } while ((mainDequeuedNode != null && !mainDequeuedNode.board.isGoal()) && (twinnedDequeuedNode != null && !twinnedDequeuedNode.board.isGoal()));
 
         return mainDequeuedNode;
     }
 
     private Board[] constructPath(SearchNode node) {
-        Board[] path;
+        Board[] pathToInitial;
         if (isSolvable) {
-            path = new Board[node.moves + 1];
+            pathToInitial = new Board[node.moves + 1];
             int currentElementPosition = node.moves;
             while (node != null) {
-                path[currentElementPosition--] = node.board;
+                pathToInitial[currentElementPosition--] = node.board;
                 node = node.previous;
             }
         } else {
-            path = null;
+            pathToInitial = null;
         }
-        return path;
+        return pathToInitial;
     }
 
     // is the initial board solvable? (see below)
@@ -104,6 +103,7 @@ public class Solver {
                 public Iterator<Board> iterator() {
                     return new Iterator<Board>() {
                         private int cursor = 0;
+
                         @Override
                         public boolean hasNext() {
                             return cursor < path.length;
@@ -111,6 +111,9 @@ public class Solver {
 
                         @Override
                         public Board next() {
+                            if (cursor >= path.length) {
+                                throw new NoSuchElementException("cursor is out of the index");
+                            }
                             return path[cursor++];
                         }
                     };

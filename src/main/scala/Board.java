@@ -1,6 +1,9 @@
 import edu.princeton.cs.algs4.StdRandom;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class Board {
     private final int rowSize;
@@ -112,10 +115,10 @@ public class Board {
     public boolean isGoal() {
         boolean result = tiles[rowSize - 1][columnSize - 1] == 0;
         if (result) {
-            for (int i = 0; i < totalElements - 1; i ++) {
+            for (int i = 0; i < totalElements - 1; i++) {
                 int row = i / rowSize;
                 int col = i % columnSize;
-                if (tiles[row][col] != (i+1)) {
+                if (tiles[row][col] != (i + 1)) {
                     return false;
                 }
             }
@@ -136,9 +139,7 @@ public class Board {
     private int[][] copyTiles() {
         int[][] result = new int[rowSize][columnSize];
         for (int i = 0; i < rowSize; i++) {
-            for (int j = 0; j < columnSize; j++) {
-                result[i][j] = tiles[i][j];
-            }
+            if (columnSize >= 0) System.arraycopy(tiles[i], 0, result[i], 0, columnSize);
         }
         return result;
     }
@@ -174,12 +175,7 @@ public class Board {
             boards.add(new Board(downBoardTiles));
         }
 
-        return new Iterable<Board>() {
-            @Override
-            public Iterator<Board> iterator() {
-                return new BoardIterator(boards);
-            }
-        };
+        return boards;
     }
 
     // a board that is obtained by exchanging any pair of tiles O(N)
@@ -215,10 +211,10 @@ public class Board {
         }
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Position position = (Position) o;
+        public boolean equals(Object that) {
+            if (this == that) return true;
+            if (that == null || getClass() != that.getClass()) return false;
+            Position position = (Position) that;
             return x == position.x &&
                     y == position.y;
         }
@@ -236,50 +232,5 @@ public class Board {
 
     // unit testing (not graded)
     public static void main(String[] args) {
-        for (int n = 2; n < 128; n = n * 2) {
-            long start = System.nanoTime();
-            int neighbourCount = createBoardAndReturnNeighbourCount(n);
-            if (neighbourCount != 2) {
-                System.out.println("FAILED");
-            }
-            System.out.printf("%3d %10s%n", n, System.nanoTime() - start);
-        }
-    }
-
-    private static int createBoardAndReturnNeighbourCount(int n) {
-        int[][] input = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                input[i][j] = n * i + j;
-            }
-        }
-        int temp = input[n - 1][n - 1];
-        input[n - 1][n - 1] = input[0][0];
-        input[0][0] = temp;
-        Iterable<Board> neighbors = new Board(input).neighbors();
-        int count = 0;
-        for (Board b : neighbors) {
-            count += 1;
-        }
-        return count;
-    }
-
-    private static class BoardIterator implements Iterator<Board> {
-        private int current = 0;
-        private final List<Board> boards;
-
-        public BoardIterator(List<Board> boards) {
-            this.boards = boards;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return current < boards.size();
-        }
-
-        @Override
-        public Board next() {
-            return boards.get(current++);
-        }
     }
 }
