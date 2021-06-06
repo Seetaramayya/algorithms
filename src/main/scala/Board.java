@@ -77,24 +77,20 @@ public class Board {
 
     // sum of Manhattan distances between tiles and goal O(N)
     public int manhattan() {
-        int distance = 0;
-
+        int distanceSum = 0;
         for (int i = 0; i < rowSize; i++) {
             for (int j = 0; j < columnSize; j++) {
-                int expectedTile = (rowSize * i) + j + 1;
-                if (expectedTile == totalElements) break;
-                int currentTile = tiles[i][j];
-                if (currentTile != expectedTile) {
-                    int x1 = getRowPosition(currentTile);
-                    int y1 = getColumnPosition(currentTile);
-                    int x2 = getRowPosition(expectedTile);
-                    int y2 = getColumnPosition(expectedTile);
-                    int d = Math.abs(x1 - x2) + Math.abs(y1 - y2);
-                    distance += d;
+                int expectedTileValue = (rowSize * i) + j + 1;
+                int currentTileValue = tiles[i][j];
+                if (currentTileValue != expectedTileValue && currentTileValue != 0) {
+                    int x2 = getRowPosition(currentTileValue);
+                    int y2 = getColumnPosition(currentTileValue);
+                    int d = (Math.abs(i - x2) + Math.abs(j - y2));
+                    distanceSum += d;
                 }
             }
         }
-        return distance;
+        return distanceSum;
     }
 
     private int getRowPosition(int tileValue) {
@@ -139,7 +135,9 @@ public class Board {
     private int[][] copyTiles() {
         int[][] result = new int[rowSize][columnSize];
         for (int i = 0; i < rowSize; i++) {
-            if (columnSize >= 0) System.arraycopy(tiles[i], 0, result[i], 0, columnSize);
+            for (int j = 0; j < columnSize; j++) {
+                result[i][j] = tiles[i][j];
+            }
         }
         return result;
     }
@@ -228,9 +226,5 @@ public class Board {
         public String toString() {
             return String.format("Position(%d, %d)", x, y);
         }
-    }
-
-    // unit testing (not graded)
-    public static void main(String[] args) {
     }
 }

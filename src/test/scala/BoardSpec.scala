@@ -17,6 +17,23 @@ class BoardSpec extends AnyWordSpec with Matchers {
       board.dimension() shouldBe 4
     }
 
+    "check manhattan() with file inputs" ignore {
+      (0 to 50).filter(i => i != 11 && i != 14 && i != 16 && i != 17).map(i => (i, f"$i%2d".replace(' ', '0'))).map {
+        case (manhattan, fileSuffix) =>
+          println(s"puzzle$fileSuffix.txt")
+          val board = createBoard(s"puzzle$fileSuffix.txt")
+          board.manhattan() shouldBe manhattan
+      }
+    }
+
+    "sample" ignore {
+      val board = createBoard(s"puzzle11.txt")
+      println(board)
+      createBoard(s"puzzle04.txt").manhattan() shouldBe 4
+      createBoard(s"puzzle07.txt").manhattan() shouldBe 7
+      createBoard(s"puzzle11.txt").manhattan() shouldBe 11
+    }
+
     "return the size of the board" in {
       val tiles: Array[Array[Int]] = Array(Array(8, 1, 3), Array(4, 0, 2), Array(7, 6, 5))
       val board = new Board(tiles)
@@ -113,7 +130,8 @@ class BoardSpec extends AnyWordSpec with Matchers {
 
   def createBoard(fileName: String): Board = {
     val lines = Source.fromInputStream(getClass.getResourceAsStream(s"8puzzle/$fileName")).getLines().toList
-    val tiles: Array[Array[Int]] = lines.drop(1).map { line =>
+    val n = Integer.parseInt(lines.head.trim)
+    val tiles: Array[Array[Int]] = lines.slice(1, n + 1).map { line =>
       line.split("\\s+").filter(_.nonEmpty).map(s => Integer.parseInt(s))
     }.toArray
 
