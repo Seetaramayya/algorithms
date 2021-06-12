@@ -1,13 +1,13 @@
-/******************************************************************************
- *  Compilation:  javac-algs4 PuzzleChecker.java
- *  Execution:    java-algs4 PuzzleChecker filename1.txt filename2.txt ...
- *  Dependencies: Board.java Solver.java
+package tutorial.java.part1.assignment.eightpuzzle; /******************************************************************************
+ *  Compilation:  javac-algs4 tutorial.java.part1.assignment.eightpuzzle.PuzzleChecker.java
+ *  Execution:    java-algs4 tutorial.java.part1.assignment.eightpuzzle.PuzzleChecker filename1.txt filename2.txt ...
+ *  Dependencies: tutorial.java.part1.assignment.eightpuzzle.Board.java tutorial.java.part1.assignment.eightpuzzle.Solver.java
  *
  *  This program creates an initial board from each filename specified
  *  on the command line and finds the minimum number of moves to
  *  reach the goal state.
  *
- *  % java-algs4 PuzzleChecker puzzle*.txt
+ *  % java-algs4 tutorial.java.part1.assignment.eightpuzzle.PuzzleChecker puzzle*.txt
  *  puzzle00.txt: 0
  *  puzzle01.txt: 1
  *  puzzle02.txt: 2

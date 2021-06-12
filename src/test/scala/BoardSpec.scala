@@ -1,11 +1,12 @@
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import tutorial.java.part1.assignment.eightpuzzle.Board
 
 import scala.io.Source
 import scala.jdk.CollectionConverters.IterableHasAsScala
 
 class BoardSpec extends AnyWordSpec with Matchers {
-  "Board" should {
+  "tutorial.java.part1.assignment.eightpuzzle.Board" should {
     "be able to create for this input as well" in {
       val board = createBoard("puzzle4x4-unsolvable.txt")
       board.dimension() shouldBe 4

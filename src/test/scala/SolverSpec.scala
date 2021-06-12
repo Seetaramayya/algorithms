@@ -1,5 +1,6 @@
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import tutorial.java.part1.assignment.eightpuzzle.{Board, Solver}
 
 import scala.io.Source
 import scala.jdk.CollectionConverters.IterableHasAsScala

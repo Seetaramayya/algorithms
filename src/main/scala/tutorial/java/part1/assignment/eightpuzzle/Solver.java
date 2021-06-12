@@ -1,3 +1,5 @@
+package tutorial.java.part1.assignment.eightpuzzle;
+
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.StdOut;
