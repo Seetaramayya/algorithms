@@ -171,7 +171,11 @@ class KdTreeSpec extends AnyWordSpec with Matchers {
         kdTree.nearest(smallPoint) shouldBe null
 
         // inserting all the points
-        points.foreach(point => kdTree.insert(point))
+        points.foreach { point =>
+          kdTree.insert(point)
+          kdTree.contains(new Point2D(point.x(), point.y())) shouldBe true
+          kdTree.nearest(new Point2D(point.x(), point.y())) shouldBe new Point2D(point.x(), point.y())
+        }
 
         kdTree.isEmpty shouldBe false
         kdTree.size() shouldBe distinctPoints.size

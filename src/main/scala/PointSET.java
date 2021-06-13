@@ -27,7 +27,8 @@ public class PointSET {
 
     // does the set contain point p? O(logN)
     public boolean contains(Point2D p) {
-        return p != null && orderedSet.contains(p);
+        if (p == null) throw new IllegalArgumentException("non null please");
+        return orderedSet.contains(p);
     }
 
     // draw all points to standard draw O(N)
@@ -52,6 +53,7 @@ public class PointSET {
     // a nearest neighbor in the set to point p; null if the set is empty O(N)
     public Point2D nearest(Point2D point) {
         Point2D nearestPoint = null;
+        if (point == null) throw new IllegalArgumentException("non null please");
         double smallestDistance = Double.POSITIVE_INFINITY;
         for (Point2D currentPoint : orderedSet) {
             double distance = currentPoint.distanceSquaredTo(point);

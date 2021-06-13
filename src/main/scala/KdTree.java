@@ -61,7 +61,7 @@ public class KdTree {
                         currentNode = currentNode.left;
                     }
                 } else {
-                    if ( currentNode.right == null) {
+                    if (currentNode.right == null) {
                         size += 1;
                         currentNode.right = new Node(p, currentNode.level + 1);
                         break;
@@ -80,7 +80,7 @@ public class KdTree {
 
     private Node find(Node current, Point2D p) {
         if (current == null) return null;
-        else if (current.point == p) return current;
+        else if (current.point.equals(p)) return current;
         else {
             if (isLessThan(current, p)) return find(current.left, p);
             else return find(current.right, p);
@@ -88,8 +88,9 @@ public class KdTree {
     }
 
     // does the set contain point p?
-    public boolean contains(Point2D p) {
-        return find(root, p) != null;
+    public boolean contains(Point2D point) {
+        if (point == null) throw new IllegalArgumentException("non null please");
+        return find(root, point) != null;
     }
 
     // draw all points to standard draw
@@ -106,13 +107,11 @@ public class KdTree {
 
             if (current.isEvenLevel()) {
                 StdDraw.setPenColor(StdDraw.RED);
-                StdDraw.setPenRadius(0.001);
                 StdDraw.line(current.point.x(), y1, current.point.x(), y2);
                 drawRecursive(current.left, x1, y1, current.point.x(), y2);
                 drawRecursive(current.right, current.point.x(), y1, x2, y2);
             } else {
                 StdDraw.setPenColor(StdDraw.BLUE);
-                StdDraw.setPenRadius(0.001);
                 StdDraw.line(x1, current.point.y(), x2, current.point.y());
                 drawRecursive(current.left, x1, y1, x2, current.point.y());
                 drawRecursive(current.right, x1, current.point.y(), x2, y2);
@@ -148,10 +147,11 @@ public class KdTree {
     }
 
     // a nearest neighbor in the set to point p; null if the set is empty
-    public Point2D nearest(Point2D p) {
+    public Point2D nearest(Point2D point) {
         Point2D result = null;
+        if (point == null) throw new IllegalArgumentException("non null please");
         if (root != null) {
-            result = findNearestPoint(root, root.point, p);
+            result = findNearestPoint(root, root.point, point);
         }
         return result;
     }
