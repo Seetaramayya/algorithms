@@ -69,6 +69,7 @@ public class PointSET {
 
     // unit testing of the methods (optional)
     public static void main(String[] args) {
+        // TODO: delete following hardcoded path
         String filename = "/Users/seeta/projects/github/algorithms/src/main/resources/kdtree/horizontal8.txt";
         In in = new In(filename);
         PointSET brute = new PointSET();
