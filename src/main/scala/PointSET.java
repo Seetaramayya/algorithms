@@ -1,10 +1,9 @@
-import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 
 public class PointSET {
@@ -40,7 +39,8 @@ public class PointSET {
 
     // all points that are inside the rectangle (or on the boundary) O(N)
     public Iterable<Point2D> range(RectHV rectangle) {
-        Set<Point2D> points = new HashSet<>();
+        if (rectangle == null) throw new IllegalArgumentException("rectangle should not be null");
+        List<Point2D> points = new ArrayList<>();
         for (Point2D currentPoint : orderedSet) {
             if (rectangle.contains(currentPoint)) {
                 points.add(currentPoint);
@@ -52,39 +52,14 @@ public class PointSET {
     // a nearest neighbor in the set to point p; null if the set is empty O(N)
     public Point2D nearest(Point2D point) {
         Point2D nearestPoint = null;
-        double smallestDistance = Double.MAX_VALUE;
+        double smallestDistance = Double.POSITIVE_INFINITY;
         for (Point2D currentPoint : orderedSet) {
-            double distance = currentPoint.distanceTo(point);
+            double distance = currentPoint.distanceSquaredTo(point);
             if (distance < smallestDistance) {
                 smallestDistance = distance;
                 nearestPoint = currentPoint;
             }
         }
         return nearestPoint;
-    }
-
-    // unit testing of the methods (optional)
-    public static void main(String[] args) {
-        String filename = args[0];
-        In in = new In(filename);
-        PointSET brute = new PointSET();
-        while (!in.isEmpty()) {
-            double x = in.readDouble();
-            double y = in.readDouble();
-            Point2D p = new Point2D(x, y);
-            brute.insert(p);
-        }
-
-        StdDraw.clear();
-        StdDraw.setPenColor(StdDraw.BLACK);
-        StdDraw.setPenRadius(0.01);
-        brute.draw();
-
-        StdDraw.setPenColor(StdDraw.RED);
-        StdDraw.setPenRadius(0.001);
-
-        RectHV rect = new RectHV(0.0, 0.0, 1.0, 1.0);
-        brute.range(rect);
-        rect.draw();
     }
 }

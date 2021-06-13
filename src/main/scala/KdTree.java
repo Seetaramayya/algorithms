@@ -3,7 +3,8 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class KdTree {
     private Node root;
@@ -43,20 +44,25 @@ public class KdTree {
     // add the point to the set (if it is not already in the set)
     public void insert(Point2D p) {
         if (p == null) throw new IllegalArgumentException("point should not be null");
-        if (root == null) root = new Node(p, 0);
-        else {
+        if (root == null) {
+            size += 1;
+            root = new Node(p, 0);
+        } else {
             Node currentNode = root;
             while (true) {
+                if (currentNode.point.equals(p)) break;
                 // if p < currentNode goLeft
                 if (isLessThan(currentNode, p)) {
                     if (currentNode.left == null) {
+                        size += 1;
                         currentNode.left = new Node(p, currentNode.level + 1);
                         break;
                     } else {
                         currentNode = currentNode.left;
                     }
                 } else {
-                    if (currentNode.right == null) {
+                    if ( currentNode.right == null) {
+                        size += 1;
                         currentNode.right = new Node(p, currentNode.level + 1);
                         break;
                     } else {
@@ -65,7 +71,6 @@ public class KdTree {
                 }
             }
         }
-        size += 1;
     }
 
     private boolean isLessThan(Node node, Point2D p) {
@@ -98,15 +103,16 @@ public class KdTree {
             StdDraw.setPenColor(StdDraw.BLACK);
             StdDraw.setPenRadius(0.01);
             StdDraw.point(current.point.x(), current.point.y());
-            StdDraw.setPenRadius(0.001);
 
             if (current.isEvenLevel()) {
                 StdDraw.setPenColor(StdDraw.RED);
+                StdDraw.setPenRadius(0.001);
                 StdDraw.line(current.point.x(), y1, current.point.x(), y2);
                 drawRecursive(current.left, x1, y1, current.point.x(), y2);
                 drawRecursive(current.right, current.point.x(), y1, x2, y2);
             } else {
                 StdDraw.setPenColor(StdDraw.BLUE);
+                StdDraw.setPenRadius(0.001);
                 StdDraw.line(x1, current.point.y(), x2, current.point.y());
                 drawRecursive(current.left, x1, y1, x2, current.point.y());
                 drawRecursive(current.right, x1, current.point.y(), x2, y2);
@@ -116,16 +122,15 @@ public class KdTree {
 
     // all points that are inside the rectangle (or on the boundary)
     public Iterable<Point2D> range(RectHV rectangle) {
-        if (root == null) return new HashSet<>();
-        else {
-            RectHV rootRect = new RectHV(0.0, 0.0, 1.0, 1.0);
-            HashSet<Point2D> pointsInRect = new HashSet<>();
-            range(root, rootRect, rectangle, pointsInRect);
-            return pointsInRect;
+        if (rectangle == null) throw new IllegalArgumentException("rectangle should not be null");
+        List<Point2D> points = new ArrayList<>();
+        if (root != null) {
+            range(root, new RectHV(0.0, 0.0, 1.0, 1.0), rectangle, points);
         }
+        return points;
     }
 
-    private void range(Node currentNode, RectHV currentRectangle, RectHV queryRectangle, HashSet<Point2D> points) {
+    private void range(Node currentNode, RectHV currentRectangle, RectHV queryRectangle, List<Point2D> points) {
         if (currentNode != null && currentRectangle.intersects(queryRectangle)) {
             if (queryRectangle.contains(currentNode.point)) points.add(currentNode.point);
             if (currentNode.isEvenLevel()) {
@@ -144,17 +149,18 @@ public class KdTree {
 
     // a nearest neighbor in the set to point p; null if the set is empty
     public Point2D nearest(Point2D p) {
-        if (root == null) return null;
-        else {
-            return findNearestPoint(root, root.point, p);
+        Point2D result = null;
+        if (root != null) {
+            result = findNearestPoint(root, root.point, p);
         }
+        return result;
     }
 
     private Point2D findNearestPoint(Node current, Point2D lastKnownNearestPoint, Point2D p) {
         if (current == null) return lastKnownNearestPoint;
         else {
-            double distance = current.point.distanceTo(p);
-            double previousNearestDistance = lastKnownNearestPoint.distanceTo(p);
+            double distance = current.point.distanceSquaredTo(p);
+            double previousNearestDistance = lastKnownNearestPoint.distanceSquaredTo(p);
             Point2D currentNearestPoint = distance < previousNearestDistance ? current.point : lastKnownNearestPoint;
             if (isLessThan(current, p)) {
                 return findNearestPoint(current.left, currentNearestPoint, p);

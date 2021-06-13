@@ -27,6 +27,22 @@ class KdTreeSpec extends AnyWordSpec with Matchers {
       emptyRange shouldBe List()
     }
 
+    "throw IllegalArgumentException when null range is given" in {
+      val kdTree = new KdTree()
+      kdTree.isEmpty shouldBe true
+
+      val p = new Point2D(0.1, 0.2)
+      kdTree.insert(p)
+      kdTree.isEmpty shouldBe false
+      kdTree.size() shouldBe 1
+      kdTree.contains(p) shouldBe true
+      kdTree.nearest(new Point2D(0.9, 0.9)) shouldBe p
+
+      intercept[IllegalArgumentException] {
+        kdTree.range(null).asScala.toList
+      }
+    }
+
     "handle api correctly with two points in the square " in {
       val kdTree = new KdTree()
       kdTree.isEmpty shouldBe true
@@ -105,8 +121,6 @@ class KdTreeSpec extends AnyWordSpec with Matchers {
       contained.size shouldBe distinctPoints.size
     }
 
-    //TODO add out of bounds rectangle
-
     "handle API correctly for input10K.txt" in {
       val points = readPointsFromResource("kdtree/vertical7.txt")
       val distinctPoints = points.toSet
@@ -129,6 +143,7 @@ class KdTreeSpec extends AnyWordSpec with Matchers {
         "circle10000.txt",
         "circle4.txt",
         "horizontal8.txt",
+        "input5.txt",
         "input10.txt",
         "input100K.txt",
         "input10K.txt",
