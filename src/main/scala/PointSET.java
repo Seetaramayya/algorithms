@@ -9,10 +9,6 @@ import java.util.TreeSet;
 
 public class PointSET {
     private final TreeSet<Point2D> orderedSet = new TreeSet<>();
-    // construct an empty set of points
-    public PointSET() {
-
-    }
 
     // is the set empty? O(1)
     public boolean isEmpty() {
@@ -69,21 +65,12 @@ public class PointSET {
 
     // unit testing of the methods (optional)
     public static void main(String[] args) {
-        // TODO: delete following hardcoded path
-        String filename = "/Users/seeta/projects/github/algorithms/src/main/resources/kdtree/horizontal8.txt";
+        String filename = args[0];
         In in = new In(filename);
         PointSET brute = new PointSET();
-        double smallestX = Double.MAX_VALUE;
-        double smallestY = Double.MAX_VALUE;
-        double largestX = Double.MIN_VALUE;
-        double largestY = Double.MIN_VALUE;
         while (!in.isEmpty()) {
             double x = in.readDouble();
             double y = in.readDouble();
-            if (x  < smallestX) smallestX = x;
-            if (y  < smallestY) smallestY = y;
-            if (x  > largestX) largestX = x;
-            if (y  > largestY) largestY = y;
             Point2D p = new Point2D(x, y);
             brute.insert(p);
         }
@@ -96,7 +83,7 @@ public class PointSET {
         StdDraw.setPenColor(StdDraw.RED);
         StdDraw.setPenRadius(0.001);
 
-        RectHV rect = new RectHV(smallestX, smallestY, largestX, largestY);
+        RectHV rect = new RectHV(0.0, 0.0, 1.0, 1.0);
         brute.range(rect);
         rect.draw();
     }
